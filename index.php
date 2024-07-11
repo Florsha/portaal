@@ -50,7 +50,7 @@
 
       <div id="logo" class="pull-left">
         
-        <h1><a href="#body" class="scrollto">DOH<span>RO7</span></a></h1>
+        <h1><a href="#body" class="scrollto">DOHa<span>RO7</span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="#body"><img src="img/logo.png" alt="" title="" /></a>-->
       </div>

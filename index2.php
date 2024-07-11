@@ -594,7 +594,7 @@
             <a href="https://payroll7.cvchd7.com/" target="_blank"> 
               <div class="box wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="icon"><i class="fa fa-credit-card"></i></div>
-                <h4 class="title">PAYROLL</h4>
+                <h4 class="title">PAYROLLa</h4>
                 <p class="description">Web based Payroll System.1 </p>
               </div>
             </a>
