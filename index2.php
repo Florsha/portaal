@@ -405,7 +405,7 @@
         <div class="row">
 
           <div class="col-lg-4">
-            <a href="https://mis.cvchd7.com/dts" target="_blank" data-toggle="modal" data-target="#modal">
+            <a href="#" id="dts" target="_blank" data-toggle="modal" data-target="#modal" data-system="dts">
               <div class="box wow fadeInLeft">
                 <div class="icon"><i class="fa fa-barcode"></i></div>
                 <h4 class="title">DTS</h4>
@@ -580,8 +580,7 @@
           </div>
 
           <div class="col-lg-4">
-           <!--  <a href="http:///pis" target="_blank"> -->
-            <a href="http://49.157.74.3/pis" target="_blank" data-toggle="modal" data-target="#modal">
+           <a href="#" id="pis" target="_blank" data-toggle="modal" data-target="#modal" data-system="pis">
               <div class="box wow fadeInRight">
                 <div class="icon"><i class="fa fa-vcard-o"></i></div>
                 <h4 class="title">PIS</h4>
@@ -591,11 +590,11 @@
           </div>
 
           <div class="col-lg-4">
-            <a href="https://payroll7.cvchd7.com/" target="_blank"> 
-              <div class="box wow fadeInLeft" data-wow-delay="0.2s">
-                <div class="icon"><i class="fa fa-credit-card"></i></div>
-                <h4 class="title">PAYROLLa</h4>
-                <p class="description">Web based Payroll System.1 </p>
+            <a href="#" id="payroll" target="_blank" data-toggle="modal" data-target="#modal" data-system="payroll">
+              <div class="box wow fadeInRight">
+                <div class="icon"><i class="fa fa-vcard-o"></i></div>
+                <h4 class="title">Payroll</h4>
+                <p class="description">Web based Payroll System.</p>
               </div>
             </a>
           </div>
@@ -610,16 +609,7 @@
             </a>
           </div>
 
-          <div class="col-lg-4">
-           <!--  <a href="http:///pis" target="_blank"> -->
-            <a href="http://49.157.74.3/pis/login_jwt/0881" target="_blank">
-              <div class="box wow fadeInRight">
-                <div class="icon"><i class="fa fa-vcard-o"></i></div>
-                <h4 class="title">Portal v2</h4>
-                <p class="description"> Portal v2</p>
-              </div>
-            </a>
-          </div>
+          
 
 
           <div class="col-lg-6">
@@ -798,14 +788,15 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                    <div class="logo-header">
-                        <img src="\portal\img\doh.png" style="width:100px; height:100px;">
-                        <h6>Portal Login</h6>
+                    <div class="logo-header" style="display: flex; flex-direction: column; align-items: center;">
+                        <img src="\portaal\img\doh.png" style="width:100px; height:100px;">
+                        <br>
+                        <h6><strong>Portal Login</strong></h6>
                     </div>
                     <span aria-hidden="true" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 10px; right: 10px;">&times;</span>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form id="loginForm">
                     <div class="form-group">
                       <input type="text" class="form-control" id="username" placeholder="Enter username">
                     </div>
@@ -826,3 +817,56 @@
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </body>
 </html>
+
+<!--   PIS http://192.168.110.44/pis/login_jwt?userid=   -->
+
+<script>
+    let selectedSystem = '';
+    document.getElementById('pis').addEventListener('click', function() {
+      selectedSystem = 'pis';
+    });
+
+    document.getElementById('payroll').addEventListener('click', function() {
+      selectedSystem = 'payroll';
+    });
+
+    document.getElementById('dts').addEventListener('click', function() {
+      selectedSystem = 'dts';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        fetch('http://192.168.110.43:8082/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) { 
+                const token = data.token;
+                //document.cookie = `authToken=${data.token}; path=/; secure; samesite=strict;`;
+                if (selectedSystem === 'payroll') {
+                  const payrollLink = `http://192.168.110.43:8083/Account/Login_Jwt?userid=${encodeURIComponent(data.token)}`;
+                  window.open(payrollLink, '_blank');
+                } else if (selectedSystem === 'pis') {
+                  const pisLink = `http://192.168.110.44/pis/login_jwt?userid=${data.token}`;
+                  window.open(pisLink, '_blank');
+                }
+                else if (selectedSystem === 'dts') {
+                  const dtsLink = `https://mis.cvchd7.com/dts/login_jwt?userid=${data.token}`;
+                  window.open(dtsLink, '_blank');
+                }
+            } else {
+                alert('Login failed!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
