@@ -100,7 +100,7 @@
 <body>
 <div class="login-container">
     <div class="logo-header">
-        <img src="\portal\img\doh.png" style="width:100px; height:100px;">
+        <img src="\portaal\img\doh.png" style="width:100px; height:100px;">
         <h5>Portal Login</h5>
     </div>
     <form action="/login" method="POST">
@@ -110,7 +110,7 @@
     </form>
     <a href="#">Forgot password?</a>
     <div class="footer">
-        Please use your dtr credentials.
+        Please use your dtr credentials asdasd.
     </div>
 </div>
 </body>
